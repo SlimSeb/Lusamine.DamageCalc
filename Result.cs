@@ -8,7 +8,7 @@ namespace DamageCalc {
     public Pokemon Defender { get; }
     public Move Move { get; }
     public Field Field { get; }
-    public object Damage { get; }
+    public object Damage { get; set; }
     public RawDesc RawDesc { get; }
 
     public Result(IGeneration gen, Pokemon attacker, Pokemon defender, Move move, Field field, object damage, RawDesc rawDesc) {
@@ -26,7 +26,7 @@ namespace DamageCalc {
     }
 
     public (int min, int max) Range() {
-      return DamageRange(Damage);
+      return DamageUtil.DamageRange(Damage);
     }
 
     public string FullDesc(string notation = "%", bool err = true) {
@@ -37,15 +37,15 @@ namespace DamageCalc {
       return DescUtil.DisplayMove(Gen, Attacker, Defender, Move, Damage, notation);
     }
 
-    public (int[] recovery, string text) Recovery(string notation = "%") {
+    public (double[] recovery, string text) Recovery(string notation = "%") {
       return DescUtil.GetRecovery(Gen, Attacker, Defender, Move, Damage, notation);
     }
 
-    public (int[] recoil, string text) Recoil(string notation = "%") {
+    public (double[] recoil, string text) Recoil(string notation = "%") {
       return DescUtil.GetRecoil(Gen, Attacker, Defender, Move, Damage, notation);
     }
 
-    public (string text, int chance) Kochance(bool err = true) {
+    public (double chance, int n, string text) Kochance(bool err = true) {
       return DescUtil.GetKOChance(Gen, Attacker, Defender, Move, Field, Damage, err);
     }
   }

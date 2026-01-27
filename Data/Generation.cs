@@ -3,21 +3,21 @@ using System;
 namespace DamageCalc.Data {
   public sealed class Generation : IGeneration {
     public int Num { get; }
-    public IAbilities Abilities { get; }
-    public IItems Items { get; }
-    public IMoves Moves { get; }
-    public ISpecies Species { get; }
-    public ITypes Types { get; }
-    public INatures Natures { get; }
+    public IDataTable<IAbility> Abilities { get; }
+    public IDataTable<IItem> Items { get; }
+    public IDataTable<IMove> Moves { get; }
+    public IDataTable<ISpecie> Species { get; }
+    public IDataTable<IType> Types { get; }
+    public IDataTable<INature> Natures { get; }
 
     public Generation(
       int num,
-      IAbilities abilities,
-      IItems items,
-      IMoves moves,
-      ISpecies species,
-      ITypes types,
-      INatures natures
+      IDataTable<IAbility> abilities,
+      IDataTable<IItem> items,
+      IDataTable<IMove> moves,
+      IDataTable<ISpecie> species,
+      IDataTable<IType> types,
+      IDataTable<INature> natures
     ) {
       Num = num;
       Abilities = abilities;

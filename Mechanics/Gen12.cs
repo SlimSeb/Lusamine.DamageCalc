@@ -182,7 +182,7 @@ namespace DamageCalc.Mechanics {
 
       if (move.Bp == 0) return result;
 
-      var damage = new int[16];
+      var dmg = new int[16];
       for (var i = 0; i < 16; i++) {
         var damageAmount = (int)Math.Floor(((2 * lv / 5.0 + 2) * move.Bp * at / df) / 50.0 + 2);
         damageAmount = (int)Math.Floor(damageAmount * (85 + i) / 100.0);
@@ -239,7 +239,7 @@ namespace DamageCalc.Mechanics {
         }
 
         if (attacker.HasAbility("Tinted Lens") && typeEffectiveness < 1) {
-          damageAmount = (int)Math.Floor(damageAmount * 2);
+          damageAmount = (int)Math.Floor((double)(damageAmount * 2));
           desc.AttackerAbility = attacker.Ability;
         }
 
@@ -284,7 +284,7 @@ namespace DamageCalc.Mechanics {
         }
 
         if (defender.HasAbility("Fluffy") && move.Type == "Fire") {
-          damageAmount = (int)Math.Floor(damageAmount * 2);
+          damageAmount = (int)Math.Floor((double)(damageAmount * 2));
           desc.DefenderAbility = defender.Ability;
         }
 
@@ -311,12 +311,12 @@ namespace DamageCalc.Mechanics {
         }
 
         if (attacker.HasItem("Light Ball") && attacker.Named("Pikachu") && move.Category == MoveCategories.Special) {
-          damageAmount = (int)Math.Floor(damageAmount * 2);
+          damageAmount = (int)Math.Floor((double)(damageAmount * 2));
           desc.AttackerItem = attacker.Item;
         }
 
         if (attacker.HasItem("Thick Club") && attacker.Named("Cubone", "Marowak") && move.Category == MoveCategories.Physical) {
-          damageAmount = (int)Math.Floor(damageAmount * 2);
+          damageAmount = (int)Math.Floor((double)(damageAmount * 2));
           desc.AttackerItem = attacker.Item;
         }
 
@@ -332,10 +332,10 @@ namespace DamageCalc.Mechanics {
 
         damageAmount = (int)Math.Floor(damageAmount * typeEffectiveness);
         if (damageAmount < 1) damageAmount = 1;
-        damage[i] = damageAmount;
+        dmg[i] = damageAmount;
       }
 
-      result.Damage = damage;
+      result.Damage = dmg;
       return result;
     }
   }

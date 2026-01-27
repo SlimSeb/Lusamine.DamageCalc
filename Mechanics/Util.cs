@@ -424,8 +424,8 @@ namespace DamageCalc.Mechanics {
 
     public static int GetBaseDamage(int level, int basePower, int attack, int defense) {
       return (int)Math.Floor(
-        OF32(Math.Floor(OF32(OF32(Math.Floor((2 * level) / 5.0 + 2) * basePower) * attack) / defense) / 50.0 + 2)
-      );
+        (double)OF32(Math.Floor(OF32(OF32(Math.Floor(((2 * level) / 5.0 + 2) * basePower) * attack) / defense) / 50.0 + 2)
+        ));
     }
 
     public static StatId GetQPBoostedStat(Pokemon pokemon, IGeneration? gen = null) {
@@ -462,7 +462,7 @@ namespace DamageCalc.Mechanics {
     public static int GetFinalDamage(int baseAmount, int i, double effectiveness, bool isBurned, int stabMod, int finalMod, bool protect = false) {
       var damageAmount = (int)Math.Floor(OF32(baseAmount * (85 + i)) / 100.0);
       if (stabMod != 4096) damageAmount = (int)(OF32(damageAmount * stabMod) / 4096.0);
-      damageAmount = (int)Math.Floor(OF32(PokeRound(damageAmount) * effectiveness));
+      damageAmount = (int)Math.Floor((double)OF32(PokeRound(damageAmount) * effectiveness));
 
       if (isBurned) damageAmount = (int)Math.Floor(damageAmount / 2.0);
       if (protect) damageAmount = PokeRound(OF32(damageAmount * 1024) / 4096.0);

@@ -210,21 +210,14 @@ namespace DamageCalc.Data {
     T? Get(string id);
   }
 
-  public interface IAbilities : IDataTable<IAbility> { }
-  public interface IItems : IDataTable<IItem> { }
-  public interface IMoves : IDataTable<IMove> { }
-  public interface ISpecies : IDataTable<ISpecie> { }
-  public interface ITypes : IDataTable<IType> { }
-  public interface INatures : IDataTable<INature> { }
-
   public interface IGeneration {
     int Num { get; }
-    IAbilities Abilities { get; }
-    IItems Items { get; }
-    IMoves Moves { get; }
-    ISpecies Species { get; }
-    ITypes Types { get; }
-    INatures Natures { get; }
+    IDataTable<IAbility> Abilities { get; }
+    IDataTable<IItem> Items { get; }
+    IDataTable<IMove> Moves { get; }
+    IDataTable<ISpecie> Species { get; }
+    IDataTable<IType> Types { get; }
+    IDataTable<INature> Natures { get; }
   }
 
   public interface IGenerations {

@@ -104,7 +104,7 @@ namespace DamageCalc {
       return CalcStatADV(gen.Natures, stat, @base, iv, ev, level, nature);
     }
 
-    public static int CalcStatADV(INatures natures, StatId stat, int @base, int iv, int ev, int level, string? nature) {
+    public static int CalcStatADV(IDataTable<INature> natures, StatId stat, int @base, int iv, int ev, int level, string? nature) {
       if (stat == StatId.Hp) {
         return @base == 1
           ? @base

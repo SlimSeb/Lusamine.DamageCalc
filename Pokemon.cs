@@ -73,7 +73,7 @@ namespace DamageCalc {
       }
 
       if (gen.Num < 3) {
-        Ivs.Hp = Stats.DVToIV(Stats.GetHPDV(new StatsTable { Atk = Ivs.Atk, Def = Ivs.Def, Spe = Ivs.Spe, Spc = Ivs.Spa }));
+        Ivs.Hp = DamageCalc.Stats.DVToIV(DamageCalc.Stats.GetHPDV(new StatsTable { Atk = Ivs.Atk, Def = Ivs.Def, Spe = Ivs.Spe, Spc = Ivs.Spa }));
       }
 
       RawStats = new StatsTable();
@@ -168,7 +168,7 @@ namespace DamageCalc {
     }
 
     private int CalcStat(IGeneration gen, StatId stat) {
-      return Stats.CalcStat(
+      return DamageCalc.Stats.CalcStat(
         gen,
         stat,
         Species.BaseStats[stat],
