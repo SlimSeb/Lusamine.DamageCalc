@@ -198,7 +198,7 @@ namespace DamageCalc.Data {
       if (!string.IsNullOrEmpty(overrides.Name)) Name = overrides.Name;
       if (!string.IsNullOrEmpty(overrides.Kind)) Kind = overrides.Kind;
       if (overrides.Types.Length > 0) Types = overrides.Types;
-      if (overrides.BaseStats != null) BaseStats = overrides.BaseStats;
+      if (overrides.BaseStats != null && overrides.BaseStats.Hp != 0) BaseStats = overrides.BaseStats;
       if (overrides.WeightKg != 0) WeightKg = overrides.WeightKg;
       if (overrides.Nfe) Nfe = true;
       if (overrides.Gender != null) Gender = overrides.Gender;

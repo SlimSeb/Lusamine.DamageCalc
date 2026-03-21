@@ -149,8 +149,8 @@ namespace DamageCalc.Mechanics {
         };
 
         at = 10;
-        df = Math.Max(lookup[defender.Types.Length > 1 ? defender.Types[1] : defender.Types[0]], 1);
-        lv = Math.Max(lookup[attacker.Types.Length > 1 ? attacker.Types[1] : attacker.Types[0]], 1);
+        df = Math.Max(lookup[attacker.Types.Length > 1 ? attacker.Types[1] : attacker.Types[0]], 1);
+        lv = Math.Max(lookup[defender.Types.Length > 1 ? defender.Types[1] : defender.Types[0]], 1);
       }
 
       if (defender.Named("Ditto") && defender.HasItem("Metal Powder")) {
@@ -182,19 +182,35 @@ namespace DamageCalc.Mechanics {
 
       if (move.Bp == 0) return result;
 
-      var dmg = new int[16];
-      for (var i = 0; i < 16; i++) {
-        var damageAmount = (int)Math.Floor(((2 * lv / 5.0 + 2) * move.Bp * at / df) / 50.0 + 2);
-        damageAmount = (int)Math.Floor(damageAmount * (85 + i) / 100.0);
+      // Gen 1/2: base damage uses integer level arithmetic; +2 added after min(997, ...)
+      var baseDmg = (int)Math.Floor((double)((2 * lv / 5 + 2) * at * move.Bp) / (double)Math.Max(1, df) / 50.0);
+      baseDmg = Math.Min(997, baseDmg) + 2;
 
-        if (move.Named("Psywave")) damageAmount = (int)Math.Floor(((2 * lv / 5.0 + 2) * i) / 100.0);
+      // Apply pre-random modifiers (STAB, weather) before the random factor loop
+      if (field.HasWeather("Sun") && move.Type == "Fire") baseDmg = (int)Math.Floor(baseDmg * 1.5);
+      if (field.HasWeather("Sun") && move.Type == "Water") baseDmg = (int)Math.Floor(baseDmg / 2.0);
+      if (field.HasWeather("Rain") && move.Type == "Fire") baseDmg = (int)Math.Floor(baseDmg / 2.0);
+      if (field.HasWeather("Rain") && move.Type == "Water") baseDmg = (int)Math.Floor(baseDmg * 1.5);
 
-        if (attacker.HasType(move.Type)) damageAmount = (int)Math.Floor(damageAmount * 1.5);
+      if (attacker.HasType(move.Type)) baseDmg = (int)Math.Floor(baseDmg * 1.5);
 
-        if (field.HasWeather("Sun") && move.Type == "Fire") damageAmount = (int)Math.Floor(damageAmount * 1.5);
-        if (field.HasWeather("Sun") && move.Type == "Water") damageAmount = (int)Math.Floor(damageAmount / 2.0);
-        if (field.HasWeather("Rain") && move.Type == "Fire") damageAmount = (int)Math.Floor(damageAmount / 2.0);
-        if (field.HasWeather("Rain") && move.Type == "Water") damageAmount = (int)Math.Floor(damageAmount * 1.5);
+      if (gen.Num == 1) {
+        baseDmg = (int)Math.Floor(baseDmg * type1Effectiveness);
+        baseDmg = (int)Math.Floor(baseDmg * type2Effectiveness);
+      } else {
+        baseDmg = (int)Math.Floor(baseDmg * typeEffectiveness);
+      }
+
+      var dmg = new int[39]; // 217-255 random range (Gen 1/2)
+      for (var i = 217; i <= 255; i++) {
+        int damageAmount;
+        if (move.Named("Psywave")) {
+          damageAmount = (int)Math.Floor(((2 * lv / 5.0 + 2) * (i - 217)) / 100.0);
+        } else if (gen.Num == 2) {
+          damageAmount = Math.Max(1, (int)Math.Floor((double)(baseDmg * i) / 255));
+        } else {
+          damageAmount = baseDmg == 1 ? 1 : (int)Math.Floor((double)(baseDmg * i) / 255);
+        }
 
         if ((attacker.HasAbility("Plus") || attacker.HasAbility("Minus")) &&
             (defender.HasAbility("Plus") || defender.HasAbility("Minus")) &&
@@ -228,12 +244,7 @@ namespace DamageCalc.Mechanics {
           desc.AttackerAbility = attacker.Ability;
         }
 
-        if (attacker.HasAbility("Flash Fire") && move.Type == "Fire" && attacker.AbilityOn) {
-          damageAmount = (int)Math.Floor(damageAmount * 1.5);
-          desc.AttackerAbility = attacker.Ability;
-        }
-
-        if (attacker.HasAbility("Thick Fat") && (move.Type == "Fire" || move.Type == "Ice")) {
+        if (defender.HasAbility("Thick Fat") && (move.Type == "Fire" || move.Type == "Ice")) {
           damageAmount = (int)Math.Floor(damageAmount / 2.0);
           desc.DefenderAbility = defender.Ability;
         }
@@ -330,12 +341,22 @@ namespace DamageCalc.Mechanics {
           desc.AttackerItem = attacker.Item;
         }
 
-        damageAmount = (int)Math.Floor(damageAmount * typeEffectiveness);
-        if (damageAmount < 1) damageAmount = 1;
-        dmg[i] = damageAmount;
+        dmg[i - 217] = damageAmount;
       }
 
       result.Damage = dmg;
+
+      if (move.Hits > 1) {
+        var damageMatrix = new int[move.Hits][];
+        damageMatrix[0] = dmg;
+        for (var times = 1; times < move.Hits; times++) {
+          var hitDmg = new int[39];
+          for (var i = 0; i < 39; i++) hitDmg[i] = dmg[i];
+          damageMatrix[times] = hitDmg;
+        }
+        result.Damage = damageMatrix;
+      }
+
       return result;
     }
   }

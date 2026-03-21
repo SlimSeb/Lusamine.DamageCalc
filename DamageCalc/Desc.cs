@@ -42,7 +42,7 @@ namespace DamageCalc {
     public bool? IsPowerSpot { get; set; }
     public bool? IsWonderRoom { get; set; }
     public string? IsSwitching { get; set; }
-    public int? MoveBP { get; set; }
+    public double? MoveBP { get; set; }
     public string MoveName { get; set; } = "";
     public string? MoveTurns { get; set; }
     public string? MoveType { get; set; }
@@ -128,17 +128,17 @@ namespace DamageCalc {
       var ignoresShellBell = gen.Num == 3 && move.Named("Doom Desire", "Future Sight");
       if (attacker.HasItem("Shell Bell") && !ignoresShellBell) {
         for (var i = 0; i < minD.Length; i++) {
-          recovery[0] += minD[i] > 0 ? Math.Max(Math.Round(minD[i] / 8.0), 1) : 0;
-          recovery[1] += maxD[i] > 0 ? Math.Max(Math.Round(maxD[i] / 8.0), 1) : 0;
+          recovery[0] += minD[i] > 0 ? Math.Max(Math.Round(minD[i] / 8.0, MidpointRounding.AwayFromZero), 1) : 0;
+          recovery[1] += maxD[i] > 0 ? Math.Max(Math.Round(maxD[i] / 8.0, MidpointRounding.AwayFromZero), 1) : 0;
         }
-        var maxHealing = Math.Round(defender.CurHP() / 8.0);
+        var maxHealing = Math.Round(defender.CurHP() / 8.0, MidpointRounding.AwayFromZero);
         recovery[0] = Math.Min(recovery[0], maxHealing);
         recovery[1] = Math.Min(recovery[1], maxHealing);
       }
 
       if (move.Named("G-Max Finale")) {
-        recovery[0] += Math.Round(attacker.MaxHP() / 6.0);
-        recovery[1] += Math.Round(attacker.MaxHP() / 6.0);
+        recovery[0] += Math.Round(attacker.MaxHP() / 6.0, MidpointRounding.AwayFromZero);
+        recovery[1] += Math.Round(attacker.MaxHP() / 6.0, MidpointRounding.AwayFromZero);
       }
 
       if (move.Named("Pain Split")) {
@@ -155,12 +155,12 @@ namespace DamageCalc {
         }
         var percentHealed = move.Drain[0] / (double)move.Drain[1];
         var attackerHasBigRoot = attacker.HasItem("Big Root");
-        var maxDrain = Math.Round(defender.CurHP() * percentHealed);
+        var maxDrain = Math.Round(defender.CurHP() * percentHealed, MidpointRounding.AwayFromZero);
         if (attackerHasBigRoot) maxDrain = Math.Truncate(maxDrain * 5324 / 4096.0);
         for (var i = 0; i < minD.Length; i++) {
           var dmgRange = new[] { minD[i], maxD[i] };
           for (var j = 0; j < recovery.Length; j++) {
-            var drained = Math.Max(Math.Round(dmgRange[j] * percentHealed), 1);
+            var drained = Math.Max(Math.Round(dmgRange[j] * percentHealed, MidpointRounding.AwayFromZero), 1);
             if (attackerHasBigRoot) drained = Math.Truncate(drained * 5324 / 4096.0);
             recovery[j] += Math.Min(drained, maxDrain);
           }
@@ -307,7 +307,7 @@ namespace DamageCalc {
       var afterTextNoHazards = eot.texts.Count > 0 ? " after " + SerializeText(eot.texts) : "";
 
       double RoundChance(double chance) {
-        return Math.Max(Math.Min(Math.Round(chance * 1000), 999), 1) / 10.0;
+        return Math.Max(Math.Min(Math.Round(chance * 1000, MidpointRounding.AwayFromZero), 999), 1) / 10.0;
       }
 
       (double chance, int n, string text) KOChance(double? chanceWithoutEot, double? chanceWithEot, int n, bool multipleTurns = false) {
@@ -828,7 +828,7 @@ namespace DamageCalc {
       var attackerLevel = levels.attacker;
       var defenderLevel = levels.defender;
       var output = "";
-      if (description.AttackBoost.HasValue) {
+      if (description.AttackBoost.HasValue && description.AttackBoost != 0) {
         if (description.AttackBoost > 0) output += "+";
         output += description.AttackBoost + " ";
       }
@@ -856,16 +856,16 @@ namespace DamageCalc {
       if (description.IsSwitching != null) output += "switching boosted ";
       output += description.MoveName + " ";
       if (description.MoveBP.HasValue && !string.IsNullOrEmpty(description.MoveType)) {
-        output += $"({description.MoveBP} BP {description.MoveType}) ";
+        output += $"({FormatBP(description.MoveBP.Value)} BP {description.MoveType}) ";
       } else if (description.MoveBP.HasValue) {
-        output += $"({description.MoveBP} BP) ";
+        output += $"({FormatBP(description.MoveBP.Value)} BP) ";
       } else if (!string.IsNullOrEmpty(description.MoveType)) {
         output += $"({description.MoveType}) ";
       }
       if (description.Hits.HasValue) output += $"({description.Hits} hits) ";
       output = AppendIfSet(output, description.MoveTurns);
       output += "vs. ";
-      if (description.DefenseBoost.HasValue) {
+      if (description.DefenseBoost.HasValue && description.DefenseBoost != 0) {
         if (description.DefenseBoost > 0) output += "+";
         output += description.DefenseBoost + " ";
       }
@@ -919,6 +919,10 @@ namespace DamageCalc {
         text += arr[i] + ", ";
       }
       return text + "and " + arr[arr.Count - 1];
+    }
+
+    private static string FormatBP(double bp) {
+      return bp == Math.Floor(bp) ? ((int)bp).ToString() : bp.ToString("0.#");
     }
 
     private static string AppendIfSet(string str, string? toAppend) {

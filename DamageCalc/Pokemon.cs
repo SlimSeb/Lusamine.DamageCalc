@@ -209,17 +209,17 @@ namespace DamageCalc {
       };
 
       if (current != null) {
+        if (current.Spc.HasValue) {
+          result.Spa = current.Spc.Value;
+          result.Spd = current.Spc.Value;
+          result.Spc = current.Spc.Value;
+        }
         if (current.Hp.HasValue) result.Hp = current.Hp.Value;
         if (current.Atk.HasValue) result.Atk = current.Atk.Value;
         if (current.Def.HasValue) result.Def = current.Def.Value;
         if (current.Spa.HasValue) result.Spa = current.Spa.Value;
         if (current.Spd.HasValue) result.Spd = current.Spd.Value;
         if (current.Spe.HasValue) result.Spe = current.Spe.Value;
-        if (current.Spc.HasValue) {
-          result.Spa = current.Spc.Value;
-          result.Spd = current.Spc.Value;
-          result.Spc = current.Spc.Value;
-        }
         if (match && gen.Num <= 2 && current.Spa.HasValue && current.Spd.HasValue && current.Spa != current.Spd) {
           throw new InvalidOperationException("Special Attack and Special Defense must match before Gen 3");
         }

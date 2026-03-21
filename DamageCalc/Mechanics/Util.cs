@@ -126,10 +126,12 @@ namespace DamageCalc.Mechanics {
         return 1;
       }
 
-      var effectiveness = gen.Types.Get(Util.ToId(move.Type))?.Effectiveness[type] ?? 1;
+      var moveTypeData = gen.Types.Get(Util.ToId(move.Type));
+      var effectiveness = moveTypeData?.Effectiveness.TryGetValue(type, out var eff) == true ? eff : 1.0;
       if (effectiveness == 0 && isRingTarget) effectiveness = 1;
       if (move.Named("Flying Press")) {
-        effectiveness *= gen.Types.Get("flying")?.Effectiveness[type] ?? 1;
+        var flyingData = gen.Types.Get("flying");
+        effectiveness *= flyingData?.Effectiveness.TryGetValue(type, out var flyEff) == true ? flyEff : 1.0;
       }
       return effectiveness;
     }

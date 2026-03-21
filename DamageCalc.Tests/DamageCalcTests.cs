@@ -92,9 +92,9 @@ namespace DamageCalc.Tests {
       var gen = CreateGen1();
       var mew = new Pokemon(gen, "Mew", new State.Pokemon { Level = 50 });
       var vulpix = new Pokemon(gen, "Vulpix");
-      //var move = new Move(gen, "Seismic Toss");
+      var move = new Move(gen, "Seismic Toss");
       //var move = new Move(gen, "Tackle");
-      var move = new Move(gen, "Psychic");
+      //var move = new Move(gen, "Psychic");
 
       var result = Calc.Calculate(gen, mew, vulpix, move);
       Assert.That(result.Damage, Is.EqualTo(50));

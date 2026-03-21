@@ -263,7 +263,7 @@ namespace DamageCalc.Mechanics {
       for (var i = 0; i < 16; i++) {
         dmg[i] = MechanicsUtil.GetFinalDamage(baseDamage, i, typeEffectiveness, applyBurn, stabMod, finalMod);
       }
-      result.Damage = childDamage != null ? new object[] { dmg, childDamage } : dmg;
+      result.Damage = childDamage != null ? (object)new int[][] { dmg, childDamage } : dmg;
 
       desc.AttackBoost = move.Named("Foul Play") ? defender.Boosts[attackStat] : attacker.Boosts[attackStat];
 
@@ -558,7 +558,7 @@ namespace DamageCalc.Mechanics {
         desc.MoveBP = basePower * 2;
       } else if (gen.Num > 5 && move.Named("Knock Off") && !resistedKnockOffDamage) {
         bpMods.Add(6144);
-        desc.MoveBP = (int?)(basePower * 1.5);
+        desc.MoveBP = basePower * 1.5;
       } else if (move.Named("Solar Beam") && field.HasWeather("Rain", "Heavy Rain", "Sand", "Hail")) {
         bpMods.Add(2048);
         desc.MoveBP = basePower / 2;

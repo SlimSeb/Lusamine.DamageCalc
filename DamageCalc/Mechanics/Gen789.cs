@@ -583,7 +583,7 @@ namespace DamageCalc.Mechanics {
       for (var i = 0; i < 16; i++) {
         damage[i] = MechanicsUtil.GetFinalDamage(baseDamage, i, typeEffectiveness, applyBurn, stabMod, finalMod, protect);
       }
-      result.Damage = childDamage != null ? new object[] { damage, childDamage } : damage;
+      result.Damage = childDamage != null ? (object)new int[][] { damage, childDamage } : damage;
 
       desc.AttackBoost = move.Named("Foul Play") ? defender.Boosts[attackStat] : attacker.Boosts[attackStat];
 
@@ -986,13 +986,13 @@ namespace DamageCalc.Mechanics {
       ) {
         move.Target = "allAdjacentFoes";
         bpMods.Add(6144);
-        desc.MoveBP = (int)Math.Floor(basePower * 1.5);
+        desc.MoveBP = basePower * 1.5;
       } else if ((move.Named("Knock Off") && !resistedKnockOffDamage) ||
         (move.Named("Misty Explosion") && MechanicsUtil.IsGrounded(attacker, field) && field.HasTerrain("Misty")) ||
         (move.Named("Grav Apple") && field.IsGravity)
       ) {
         bpMods.Add(6144);
-        desc.MoveBP = (int)Math.Floor(basePower * 1.5);
+        desc.MoveBP = basePower * 1.5;
       } else if (move.Named("Solar Beam", "Solar Blade") &&
           field.HasWeather("Rain", "Heavy Rain", "Sand", "Hail", "Snow")) {
         bpMods.Add(2048);
@@ -1142,7 +1142,7 @@ namespace DamageCalc.Mechanics {
         desc.DefenderAbility = defender.Ability;
       }
 
-      if (attacker.HasAbility("Supreme Overlord") && attacker.AlliesFainted.HasValue) {
+      if (attacker.HasAbility("Supreme Overlord") && attacker.AlliesFainted.HasValue && attacker.AlliesFainted.Value > 0) {
         var powMod = new[] { 4096, 4506, 4915, 5325, 5734, 6144 };
         bpMods.Add(powMod[Math.Min(5, attacker.AlliesFainted.Value)]);
         desc.AttackerAbility = attacker.Ability;
