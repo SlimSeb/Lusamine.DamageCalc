@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
 
     <PackageId>Lusamine.DamageCalc</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
     <Description>A Pokémon damage calculator library supporting generations 1–9, ported from @smogon/calc. Includes all game mechanics: natures, EVs/IVs, abilities, items, weather, terrain, Z-moves, Max moves, and Terastallization.</Description>
     <PackageTags>pokemon;damage;calculator;smogon;competitive</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

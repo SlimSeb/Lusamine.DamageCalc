@@ -45,18 +45,6 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         run: dotnet pack Lusamine.DamageCalc/Lusamine.DamageCalc.csproj -c Release --no-restore -o nupkg
 
-      - name: Decode signing certificate
-        if: steps.tag_check.outputs.exists == 'false'
-        run: echo "${{ secrets.NUGET_CERT_PFX_BASE64 }}" | base64 --decode > codesign.pfx
-
-      - name: Sign package
-        if: steps.tag_check.outputs.exists == 'false'
-        run: |
-          dotnet nuget sign nupkg/*.nupkg \
-            --certificate-path codesign.pfx \
-            --certificate-password "${{ secrets.NUGET_CERT_PASSWORD }}" \
-            --timestamper http://timestamp.digicert.com
-
       - name: Publish to NuGet
         if: steps.tag_check.outputs.exists == 'false'
         run: |
