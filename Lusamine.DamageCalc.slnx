@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Lusamine.DamageCalc.Tests/Lusamine.DamageCalc.Tests.csproj" />
+  <Project Path="Lusamine.DamageCalc/Lusamine.DamageCalc.csproj" />
+</Solution>

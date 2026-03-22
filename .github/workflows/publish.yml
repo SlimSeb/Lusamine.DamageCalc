@@ -20,10 +20,10 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore
-        run: dotnet restore Lusamine.DamageCalc.sln
+        run: dotnet restore
 
       - name: Test
-        run: dotnet test Lusamine.DamageCalc.sln --no-restore -c Release -q
+        run: dotnet test --no-restore -c Release --verbosity minimal
 
       - name: Read version from csproj
         id: version
