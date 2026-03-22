@@ -344,7 +344,7 @@ namespace DamageCalc.Tests {
     [TestCase(7)]
     [TestCase(8)]
     [TestCase(9)]
-    public void IronBall_Negates(int gen) {
+    public void IronBall_NegatesImmunity(int gen) {
       var zapdos = P(gen, "Zapdos", new State.Pokemon { Item = "Iron Ball" });
       if (gen == 4) {
         var result = C(gen, P(gen, "Vibrava"), zapdos, M(gen, "Earthquake"));
@@ -359,10 +359,31 @@ namespace DamageCalc.Tests {
           "0 Atk Vibrava Earthquake vs. 0 HP / 0 Def Zapdos: 93-109 (28.9 - 33.9%) -- 1.2% chance to 3HKO"
         ));
       }
-      var result2 = C(gen, P(gen, "Poliwrath"), P(gen, "Mismagius", new State.Pokemon { Item = "Iron Ball" }), M(gen, "Mud Shot"));
-      Assert.That(result2.Range(), Is.EqualTo((29, 35)));
-      Assert.That(result2.Desc(), Is.EqualTo(
+    }
+
+    [TestCase(4)]
+    [TestCase(5)]
+    [TestCase(6)]
+    [TestCase(7)]
+    [TestCase(8)]
+    [TestCase(9)]
+    public void IronBall_NegatesLevitate(int gen) {
+      var result = C(gen, P(gen, "Poliwrath"), P(gen, "Mismagius", new State.Pokemon { Item = "Iron Ball" }), M(gen, "Mud Shot"));
+      Assert.That(result.Range(), Is.EqualTo((29, 35)));
+      Assert.That(result.Desc(), Is.EqualTo(
         "0 SpA Poliwrath Mud Shot vs. 0 HP / 0 SpD Mismagius: 29-35 (11.1 - 13.4%) -- possible 8HKO"
+      ));
+    }
+
+    [TestCase(8)]
+    [TestCase(9)]
+    public void Multiscale_ShadowShieldHalvesDamageWithHeavyDutyBoots(int gen) {
+      var dragonite2 = P(gen, "Dragonite", new State.Pokemon { Ability = "Shadow Shield", Item = "Heavy-Duty Boots" });
+      var field = F(new State.Field { DefenderSide = new State.Side { IsSR = true } });
+      var result = C(gen, P(gen, "Abomasnow"), dragonite2, M(gen, "Blizzard"), field);
+      Assert.That(result.Range(), Is.EqualTo((222, 264)));
+      Assert.That(result.Desc(), Is.EqualTo(
+        "0 SpA Abomasnow Blizzard vs. 0 HP / 0 SpD Shadow Shield Dragonite: 222-264 (68.7 - 81.7%) -- guaranteed 2HKO"
       ));
     }
 
@@ -371,50 +392,87 @@ namespace DamageCalc.Tests {
     [TestCase(7)]
     [TestCase(8)]
     [TestCase(9)]
-    public void Multiscale_ShadowShield(int gen) {
-      var dragonite = P(gen, "Dragonite", new State.Pokemon { Ability = "Multiscale" });
+    public void Multiscale_ShadowShieldNotHalvesBelowFullHp(int gen) {
       var dragonite1 = P(gen, "Dragonite", new State.Pokemon { Ability = "Multiscale", CurHP = 69 });
-      var dragonite2 = P(gen, "Dragonite", new State.Pokemon { Ability = "Shadow Shield", Item = "Heavy-Duty Boots" });
-      if (gen > 7) {
-        var field = F(new State.Field { DefenderSide = new State.Side { IsSR = true } });
-        var result = C(gen, P(gen, "Abomasnow"), dragonite2, M(gen, "Blizzard"), field);
-        Assert.That(result.Range(), Is.EqualTo((222, 264)));
-        Assert.That(result.Desc(), Is.EqualTo(
-          "0 SpA Abomasnow Blizzard vs. 0 HP / 0 SpD Shadow Shield Dragonite: 222-264 (68.7 - 81.7%) -- guaranteed 2HKO"
-        ));
-      }
-      var result1 = C(gen, P(gen, "Abomasnow"), dragonite1, M(gen, "Ice Shard"));
-      Assert.That(result1.Range(), Is.EqualTo((168, 204)));
-      Assert.That(result1.Desc(), Is.EqualTo(
+      var result = C(gen, P(gen, "Abomasnow"), dragonite1, M(gen, "Ice Shard"));
+      Assert.That(result.Range(), Is.EqualTo((168, 204)));
+      Assert.That(result.Desc(), Is.EqualTo(
         "0 Atk Abomasnow Ice Shard vs. 0 HP / 0 Def Dragonite: 168-204 (52 - 63.1%) -- guaranteed OHKO"
       ));
-      var result2 = C(gen, P(gen, "Abomasnow"), dragonite, M(gen, "Ice Shard"));
-      Assert.That(result2.Range(), Is.EqualTo((84, 102)));
-      Assert.That(result2.Desc(), Is.EqualTo(
+    }
+
+    [TestCase(5)]
+    [TestCase(6)]
+    [TestCase(7)]
+    [TestCase(8)]
+    [TestCase(9)]
+    public void Multiscale_ShadowShieldHalvesDamage(int gen) {
+      var dragonite = P(gen, "Dragonite", new State.Pokemon { Ability = "Multiscale" });
+      var result = C(gen, P(gen, "Abomasnow"), dragonite, M(gen, "Ice Shard"));
+      Assert.That(result.Range(), Is.EqualTo((84, 102)));
+      Assert.That(result.Desc(), Is.EqualTo(
         "0 Atk Abomasnow Ice Shard vs. 0 HP / 0 Def Multiscale Dragonite: 84-102 (26 - 31.5%) -- guaranteed 4HKO"
       ));
+    }
 
-      int TestBP(string ability, string defName, string? defAbility = null, string? item = null) {
-        var attacker = P(gen, "Simisage", new State.Pokemon { Ability = ability });
-        var defender = P(gen, defName, new State.Pokemon { Ability = defAbility, Item = item });
-        var move = M(gen, "Grass Knot");
-        return (int)(C(gen, attacker, defender, move).RawDesc.MoveBP ?? 0);
-      }
+    [TestCase(5)]
+    [TestCase(6)]
+    [TestCase(7)]
+    [TestCase(8)]
+    [TestCase(9)]
+    public void Weight_HeavyMetalDoubles(int gen) {
+      var result = C(gen, P(gen, "Simisage", new State.Pokemon { Ability = "Gluttony" }), P(gen, "Simisear", new State.Pokemon { Ability = "Heavy Metal" }), M(gen, "Grass Knot"));
+      Assert.That(result.RawDesc.MoveBP, Is.EqualTo(80));
+    }
 
-      Assert.That(TestBP("Gluttony", "Simisear", "Heavy Metal"), Is.EqualTo(80));
-      Assert.That(TestBP("Mold Breaker", "Simisear", "Heavy Metal"), Is.EqualTo(60));
-      Assert.That(TestBP("Gluttony", "Registeel", "Light Metal"), Is.EqualTo(100));
-      Assert.That(TestBP("Mold Breaker", "Registeel", "Light Metal"), Is.EqualTo(120));
+    [TestCase(5)]
+    [TestCase(6)]
+    [TestCase(7)]
+    [TestCase(8)]
+    [TestCase(9)]
+    public void Weight_HeavyMetalNegatedByMoldBreaker(int gen) {
+      var result = C(gen, P(gen, "Simisage", new State.Pokemon { Ability = "Mold Breaker" }), P(gen, "Simisear", new State.Pokemon { Ability = "Heavy Metal" }), M(gen, "Grass Knot"));
+      Assert.That(result.RawDesc.MoveBP, Is.EqualTo(60));
+    }
 
-      int TestBPFloat(string? ability = null) {
-        var attacker = P(gen, "Simisage", new State.Pokemon { Ability = "Gluttony" });
-        var defender = P(gen, "Registeel", new State.Pokemon { Ability = ability, Item = "Float Stone" });
-        var move = M(gen, "Grass Knot");
-        return (int)(C(gen, attacker, defender, move).RawDesc.MoveBP ?? 0);
-      }
+    [TestCase(5)]
+    [TestCase(6)]
+    [TestCase(7)]
+    [TestCase(8)]
+    [TestCase(9)]
+    public void Weight_LightMetalHalves(int gen) {
+      var result = C(gen, P(gen, "Simisage", new State.Pokemon { Ability = "Gluttony" }), P(gen, "Registeel", new State.Pokemon { Ability = "Light Metal" }), M(gen, "Grass Knot"));
+      Assert.That(result.RawDesc.MoveBP, Is.EqualTo(100));
+    }
 
-      Assert.That(TestBPFloat(), Is.EqualTo(100));
-      Assert.That(TestBPFloat("Light Metal"), Is.EqualTo(80));
+    [TestCase(5)]
+    [TestCase(6)]
+    [TestCase(7)]
+    [TestCase(8)]
+    [TestCase(9)]
+    public void Weight_LightMetalNegatedByMoldBreaker(int gen) {
+      var result = C(gen, P(gen, "Simisage", new State.Pokemon { Ability = "Mold Breaker" }), P(gen, "Registeel", new State.Pokemon { Ability = "Light Metal" }), M(gen, "Grass Knot"));
+      Assert.That(result.RawDesc.MoveBP, Is.EqualTo(120));
+    }
+
+    [TestCase(5)]
+    [TestCase(6)]
+    [TestCase(7)]
+    [TestCase(8)]
+    [TestCase(9)]
+    public void Weight_FloatStoneHalves(int gen) {
+      var result = C(gen, P(gen, "Simisage", new State.Pokemon { Ability = "Gluttony" }), P(gen, "Registeel", new State.Pokemon { Item = "Float Stone" }), M(gen, "Grass Knot"));
+      Assert.That(result.RawDesc.MoveBP, Is.EqualTo(100));
+    }
+
+    [TestCase(5)]
+    [TestCase(6)]
+    [TestCase(7)]
+    [TestCase(8)]
+    [TestCase(9)]
+    public void Weight_FloatStoneStacksWithLightMetal(int gen) {
+      var result = C(gen, P(gen, "Simisage", new State.Pokemon { Ability = "Gluttony" }), P(gen, "Registeel", new State.Pokemon { Ability = "Light Metal", Item = "Float Stone" }), M(gen, "Grass Knot"));
+      Assert.That(result.RawDesc.MoveBP, Is.EqualTo(80));
     }
 
     [Test]
@@ -862,26 +920,34 @@ namespace DamageCalc.Tests {
 
     [TestCase(8)]
     [TestCase(9)]
-    public void ShellSideArm(int gen) {
+    public void ShellSideArm_SpecialNotFurCoatOrFluffy(int gen) {
       var attacker = P(gen, "Slowbro-Galar");
       var defender = P(gen, "Mew", new State.Pokemon { Ability = "Fluffy", Evs = new StatsTableInput { Def = 4 } });
-
       var result = C(gen, attacker, defender, M(gen, "Shell Side Arm"));
       Assert.That(result.Move.Category, Is.EqualTo(MoveCategories.Special));
       Assert.That(result.RawDesc.DefenderAbility, Is.Null);
-
       defender.Ability = "Fur Coat";
       result = C(gen, attacker, defender, M(gen, "Shell Side Arm"));
       Assert.That(result.Move.Category, Is.EqualTo(MoveCategories.Special));
       Assert.That(result.RawDesc.DefenderAbility, Is.Null);
+    }
 
-      defender = P(gen, "Mew", new State.Pokemon { Ability = "Ice Scales", Evs = new StatsTableInput { Spd = 4 } });
-      result = C(gen, attacker, defender, M(gen, "Shell Side Arm"));
+    [TestCase(8)]
+    [TestCase(9)]
+    public void ShellSideArm_PhysicalNotIceScales(int gen) {
+      var attacker = P(gen, "Slowbro-Galar");
+      var defender = P(gen, "Mew", new State.Pokemon { Ability = "Ice Scales", Evs = new StatsTableInput { Spd = 4 } });
+      var result = C(gen, attacker, defender, M(gen, "Shell Side Arm"));
       Assert.That(result.Move.Category, Is.EqualTo(MoveCategories.Physical));
       Assert.That(result.RawDesc.DefenderAbility, Is.Null);
+    }
 
-      defender = P(gen, "Mew", new State.Pokemon { Ability = "Fluffy", Evs = new StatsTableInput { Spd = 4 } });
-      result = C(gen, attacker, defender, M(gen, "Shell Side Arm"));
+    [TestCase(8)]
+    [TestCase(9)]
+    public void ShellSideArm_PhysicalMakesContact(int gen) {
+      var attacker = P(gen, "Slowbro-Galar");
+      var defender = P(gen, "Mew", new State.Pokemon { Ability = "Fluffy", Evs = new StatsTableInput { Spd = 4 } });
+      var result = C(gen, attacker, defender, M(gen, "Shell Side Arm"));
       Assert.That(result.Move.Flags.Contact, Is.True);
     }
 
