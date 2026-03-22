@@ -1,7 +1,7 @@
 using System;
-using DamageCalc.Data;
+using Lusamine.DamageCalc.Data;
 
-namespace DamageCalc {
+namespace Lusamine.DamageCalc {
   public sealed class Result {
     public IGeneration Gen { get; }
     public Pokemon Attacker { get; }

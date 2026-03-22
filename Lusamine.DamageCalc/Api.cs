@@ -1,7 +1,7 @@
 using System;
-using DamageCalc.Data;
+using Lusamine.DamageCalc.Data;
 
-namespace DamageCalc {
+namespace Lusamine.DamageCalc {
   public static class Api {
     public static IGenerations? DefaultGenerations { get; set; }
 

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using DamageCalc.Data;
+using Lusamine.DamageCalc.Data;
 
-namespace DamageCalc {
+namespace Lusamine.DamageCalc {
   public sealed class Move {
     private static readonly HashSet<string> SPECIAL = new HashSet<string> {
       "Fire", "Water", "Grass", "Electric", "Ice", "Psychic", "Dark", "Dragon",

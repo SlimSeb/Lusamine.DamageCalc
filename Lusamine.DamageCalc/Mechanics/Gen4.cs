@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using DamageCalc;
-using DamageCalc.Data;
+using Lusamine.DamageCalc;
+using Lusamine.DamageCalc.Data;
 
-namespace DamageCalc.Mechanics {
+namespace Lusamine.DamageCalc.Mechanics {
   public static class Gen4 {
     public static Result CalculateDPP(IGeneration gen, Pokemon attacker, Pokemon defender, Move move, Field field) {
       MechanicsUtil.CheckAirLock(attacker, field);

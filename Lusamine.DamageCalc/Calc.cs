@@ -1,8 +1,8 @@
 using System;
-using DamageCalc.Data;
-using DamageCalc.Mechanics;
+using Lusamine.DamageCalc.Data;
+using Lusamine.DamageCalc.Mechanics;
 
-namespace DamageCalc {
+namespace Lusamine.DamageCalc {
   public static class Calc {
     private static readonly Func<IGeneration, Pokemon, Pokemon, Move, Field, Result>[] MECHANICS = {
       (g, a, d, m, f) => throw new InvalidOperationException("Invalid generation"),

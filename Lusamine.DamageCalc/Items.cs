@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using DamageCalc.Data;
+using Lusamine.DamageCalc.Data;
 
-namespace DamageCalc {
+namespace Lusamine.DamageCalc {
   public static class Items {
     public static readonly Dictionary<string, StatId> SeedBoostedStat = new Dictionary<string, StatId> {
       { "Electric Seed", StatId.Def },

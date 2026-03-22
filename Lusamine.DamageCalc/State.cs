@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using DamageCalc.Data;
+using Lusamine.DamageCalc.Data;
 
-namespace DamageCalc {
+namespace Lusamine.DamageCalc {
   public static class State {
     public sealed class Pokemon {
       public string Name { get; set; } = "";

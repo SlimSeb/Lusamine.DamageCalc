@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using DamageCalc;
-using DamageCalc.Data;
+using Lusamine.DamageCalc;
+using Lusamine.DamageCalc.Data;
 
-namespace DamageCalc.Mechanics {
+namespace Lusamine.DamageCalc.Mechanics {
   public static class Gen56 {
     public static Result CalculateBWXY(IGeneration gen, Pokemon attacker, Pokemon defender, Move move, Field field) {
       MechanicsUtil.CheckAirLock(attacker, field);

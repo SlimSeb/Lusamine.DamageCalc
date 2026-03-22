@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using DamageCalc;
-using DamageCalc.Data;
+using Lusamine.DamageCalc;
+using Lusamine.DamageCalc.Data;
 
-namespace DamageCalc.Mechanics {
+namespace Lusamine.DamageCalc.Mechanics {
   public static class Gen12 {
     public static Result CalculateRBYGSC(IGeneration gen, Pokemon attacker, Pokemon defender, Move move, Field field) {
       MechanicsUtil.ComputeFinalStats(gen, attacker, defender, field, StatId.Atk, StatId.Def, StatId.Spa, StatId.Spd, StatId.Spe);

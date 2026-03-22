@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using DamageCalc;
-using DamageCalc.Data;
-using DamageCalc.Mechanics;
+using Lusamine.DamageCalc;
+using Lusamine.DamageCalc.Data;
+using Lusamine.DamageCalc.Mechanics;
 using NUnit.Framework;
 
-namespace DamageCalc.Tests {
+namespace Lusamine.DamageCalc.Tests {
   public sealed class StatsTests {
     [Test]
     public void DisplayStat() {

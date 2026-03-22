@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using DamageCalc.Data;
+using Lusamine.DamageCalc.Data;
 using NUnit.Framework;
 
-namespace DamageCalc.Tests {
+namespace Lusamine.DamageCalc.Tests {
   public sealed class ResultBreakdown {
     public (int min, int max)? Range { get; set; }
     public string? Desc { get; set; }

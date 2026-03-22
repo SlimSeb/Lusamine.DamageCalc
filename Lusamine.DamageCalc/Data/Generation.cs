@@ -1,6 +1,6 @@
 using System;
 
-namespace DamageCalc.Data {
+namespace Lusamine.DamageCalc.Data {
   public sealed class Generation : IGeneration {
     public int Num { get; }
     public IDataTable<IAbility> Abilities { get; }

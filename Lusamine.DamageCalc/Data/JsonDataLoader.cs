@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json;
 
-namespace DamageCalc.Data {
+namespace Lusamine.DamageCalc.Data {
   // RawData maps entityId -> (fieldName -> JsonElement)
   using EntryFields = Dictionary<string, JsonElement>;
   using RawData = Dictionary<string, Dictionary<string, JsonElement>>;

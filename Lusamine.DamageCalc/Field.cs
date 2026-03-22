@@ -1,6 +1,6 @@
 using System;
 
-namespace DamageCalc {
+namespace Lusamine.DamageCalc {
   public sealed class Field {
     public string GameType { get; set; }
     public string? Weather { get; set; }

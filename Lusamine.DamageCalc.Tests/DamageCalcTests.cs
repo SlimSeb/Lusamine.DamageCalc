@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using DamageCalc;
-using DamageCalc.Data;
+using Lusamine.DamageCalc;
+using Lusamine.DamageCalc.Data;
 using NUnit;
 using NUnit.Framework;
 
-namespace DamageCalc.Tests {
+namespace Lusamine.DamageCalc.Tests {
   public sealed class DamageCalcTests {
     private static IGeneration CreateGen1() {
       IDataTable<IAbility> abilities = new DataTable<IAbility>(new Dictionary<string, IAbility>());

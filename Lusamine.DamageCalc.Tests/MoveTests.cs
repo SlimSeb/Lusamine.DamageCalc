@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace DamageCalc.Tests {
+namespace Lusamine.DamageCalc.Tests {
   public sealed class MoveTests {
     [Test]
     public void Clone() {

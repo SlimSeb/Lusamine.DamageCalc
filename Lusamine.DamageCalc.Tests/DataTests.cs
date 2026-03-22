@@ -1,8 +1,8 @@
 using System.Linq;
-using DamageCalc.Data;
+using Lusamine.DamageCalc.Data;
 using NUnit.Framework;
 
-namespace DamageCalc.Tests {
+namespace Lusamine.DamageCalc.Tests {
   public sealed class DataTests {
     // ── Abilities ──────────────────────────────────────────────────────────
 

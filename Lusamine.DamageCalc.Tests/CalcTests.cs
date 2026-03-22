@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using DamageCalc.Data;
+using Lusamine.DamageCalc.Data;
 using NUnit.Framework;
 
-namespace DamageCalc.Tests {
+namespace Lusamine.DamageCalc.Tests {
   public sealed class CalcTests {
     private static Pokemon P(int gen, string name, State.Pokemon? options = null) => TestHelper.Pokemon(gen, name, options);
     private static Move M(int gen, string name, State.Move? options = null) => TestHelper.Move(gen, name, options);

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DamageCalc.Data {
+namespace Lusamine.DamageCalc.Data {
   public sealed class Ability : IAbility {
     public string Id { get; set; } = "";
     public string Name { get; set; } = "";

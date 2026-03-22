@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using DamageCalc.Data;
+using Lusamine.DamageCalc.Data;
 
-namespace DamageCalc {
+namespace Lusamine.DamageCalc {
   public static class Stats {
     private static readonly StatId[] RBY = { StatId.Hp, StatId.Atk, StatId.Def, StatId.Spc, StatId.Spe };
     private static readonly StatId[] GSC = { StatId.Hp, StatId.Atk, StatId.Def, StatId.Spa, StatId.Spd, StatId.Spe };

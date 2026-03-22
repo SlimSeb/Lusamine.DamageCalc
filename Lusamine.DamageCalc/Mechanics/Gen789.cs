@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using DamageCalc;
-using DamageCalc.Data;
+using Lusamine.DamageCalc;
+using Lusamine.DamageCalc.Data;
 
-namespace DamageCalc.Mechanics {
+namespace Lusamine.DamageCalc.Mechanics {
   public static class Gen789 {
     private static readonly Dictionary<string, StatId> SEED_BOOSTED_STAT = new Dictionary<string, StatId> {
       { "Electric Seed", StatId.Def },

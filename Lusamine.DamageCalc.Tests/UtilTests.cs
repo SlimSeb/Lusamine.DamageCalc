@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using NUnit.Framework;
 
-namespace DamageCalc.Tests {
+namespace Lusamine.DamageCalc.Tests {
   public sealed class UtilTests {
     [Test]
     public void Extend_DeepMerges() {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace DamageCalc {
+namespace Lusamine.DamageCalc {
   public static class Util {
     private static readonly Regex IdRegex = new Regex("[^a-z0-9]+", RegexOptions.Compiled);
 

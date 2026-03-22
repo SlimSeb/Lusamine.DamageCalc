@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DamageCalc.Data {
+namespace Lusamine.DamageCalc.Data {
   public static class DataIndex {
     public static IGeneration Create(
       int gen,

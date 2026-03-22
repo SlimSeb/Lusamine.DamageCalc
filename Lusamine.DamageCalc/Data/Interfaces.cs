@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace DamageCalc.Data {
+namespace Lusamine.DamageCalc.Data {
   public static class DataKinds {
     public const string Ability = "Ability";
     public const string Item = "Item";

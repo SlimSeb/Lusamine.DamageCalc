@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using DamageCalc.Data;
-using DamageCalc.Mechanics;
+using Lusamine.DamageCalc.Data;
+using Lusamine.DamageCalc.Mechanics;
 
-namespace DamageCalc {
+namespace Lusamine.DamageCalc {
   public sealed class RawDesc {
     public string? HPEVs { get; set; }
     public int? AttackBoost { get; set; }
