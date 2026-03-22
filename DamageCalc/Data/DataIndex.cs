@@ -11,17 +11,17 @@ namespace DamageCalc.Data {
       if (gen < 1 || gen > 9) throw new ArgumentOutOfRangeException(nameof(gen));
       return new Generation(
         gen,
-        AbilitiesData.GetTable(gen),
-        ItemsData.GetTable(gen),
+        JsonDataLoader.GetAbilitiesTable(gen),
+        JsonDataLoader.GetItemsTable(gen),
         moves,
         species,
-        TypesData.GetTable(gen),
-        NaturesData.Table
+        JsonDataLoader.GetTypesTable(gen),
+        JsonDataLoader.GetNaturesTable()
       );
     }
 
     public static IGeneration Create(int gen) {
-      return Create(gen, MovesData.GetTable(gen), SpeciesData.GetTable(gen));
+      return Create(gen, JsonDataLoader.GetMovesTable(gen), JsonDataLoader.GetSpeciesTable(gen));
     }
   }
 }

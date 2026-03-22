@@ -4,4 +4,24 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\dex-species.json">
+      <LogicalName>DamageCalc.Data.dex-species.json</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\dex-moves.json">
+      <LogicalName>DamageCalc.Data.dex-moves.json</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\dex-items.json">
+      <LogicalName>DamageCalc.Data.dex-items.json</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\dex-abilities.json">
+      <LogicalName>DamageCalc.Data.dex-abilities.json</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\dex-types.json">
+      <LogicalName>DamageCalc.Data.dex-types.json</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\dex-natures.json">
+      <LogicalName>DamageCalc.Data.dex-natures.json</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
