@@ -3,6 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
+    <RootNamespace>DamageCalc.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../DamageCalc/DamageCalc.csproj" />
+    <ProjectReference Include="..\Lusamine.DamageCalc\Lusamine.DamageCalc.csproj" />
   </ItemGroup>
 </Project>

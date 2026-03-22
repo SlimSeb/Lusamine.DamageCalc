@@ -82,12 +82,12 @@ namespace DamageCalc.Data {
       }
     }
 
-    private static JsonDocument GetSpeciesDoc() => _speciesDoc ??= LoadEmbeddedJson("DamageCalc.Data.dex-species.json");
-    private static JsonDocument GetMovesDoc() => _movesDoc ??= LoadEmbeddedJson("DamageCalc.Data.dex-moves.json");
-    private static JsonDocument GetItemsDoc() => _itemsDoc ??= LoadEmbeddedJson("DamageCalc.Data.dex-items.json");
-    private static JsonDocument GetAbilitiesDoc() => _abilitiesDoc ??= LoadEmbeddedJson("DamageCalc.Data.dex-abilities.json");
-    private static JsonDocument GetTypesDoc() => _typesDoc ??= LoadEmbeddedJson("DamageCalc.Data.dex-types.json");
-    private static JsonDocument GetNaturesDoc() => _naturesDoc ??= LoadEmbeddedJson("DamageCalc.Data.dex-natures.json");
+    private static JsonDocument GetSpeciesDoc() => _speciesDoc ??= LoadEmbeddedJson("Lusamine.DamageCalc.Data.dex-species.json");
+    private static JsonDocument GetMovesDoc() => _movesDoc ??= LoadEmbeddedJson("Lusamine.DamageCalc.Data.dex-moves.json");
+    private static JsonDocument GetItemsDoc() => _itemsDoc ??= LoadEmbeddedJson("Lusamine.DamageCalc.Data.dex-items.json");
+    private static JsonDocument GetAbilitiesDoc() => _abilitiesDoc ??= LoadEmbeddedJson("Lusamine.DamageCalc.Data.dex-abilities.json");
+    private static JsonDocument GetTypesDoc() => _typesDoc ??= LoadEmbeddedJson("Lusamine.DamageCalc.Data.dex-types.json");
+    private static JsonDocument GetNaturesDoc() => _naturesDoc ??= LoadEmbeddedJson("Lusamine.DamageCalc.Data.dex-natures.json");
 
     // ----------------------------------------------------------------
     // Inheritance resolution
