@@ -1,0 +1,78 @@
+name: Publish to NuGet
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write  # needed to create tags and releases
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore Lusamine.DamageCalc.sln
+
+      - name: Test
+        run: dotnet test Lusamine.DamageCalc.sln --no-restore -c Release -q
+
+      - name: Read version from csproj
+        id: version
+        run: |
+          VERSION=$(grep -oP '(?<=<Version>)[^<]+' Lusamine.DamageCalc/Lusamine.DamageCalc.csproj)
+          echo "value=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Check if tag already exists
+        id: tag_check
+        run: |
+          if git ls-remote --tags origin "${{ steps.version.outputs.tag }}" | grep -q .; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Pack
+        if: steps.tag_check.outputs.exists == 'false'
+        run: dotnet pack Lusamine.DamageCalc/Lusamine.DamageCalc.csproj -c Release --no-restore -o nupkg
+
+      - name: Decode signing certificate
+        if: steps.tag_check.outputs.exists == 'false'
+        run: echo "${{ secrets.NUGET_CERT_PFX_BASE64 }}" | base64 --decode > codesign.pfx
+
+      - name: Sign package
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          dotnet nuget sign nupkg/*.nupkg \
+            --certificate-path codesign.pfx \
+            --certificate-password "${{ secrets.NUGET_CERT_PASSWORD }}" \
+            --timestamper http://timestamp.digicert.com
+
+      - name: Publish to NuGet
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          dotnet nuget push nupkg/*.nupkg \
+            --api-key "${{ secrets.NUGET_API_KEY }}" \
+            --source https://api.nuget.org/v3/index.json
+
+      - name: Create GitHub release
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: ${{ steps.version.outputs.tag }}
+          generate_release_notes: true
+          files: nupkg/*.nupkg
+
+      - name: Clean up certificate
+        if: always()
+        run: rm -f codesign.pfx
