@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using Lusamine.DamageCalc.Data;
 
 namespace Lusamine.DamageCalc {
+  /// <summary>
+  /// Stat calculation utilities: computes final stat values for all generations,
+  /// converts between IVs and DVs, and resolves Hidden Power type and power.
+  /// </summary>
   public static class Stats {
     private static readonly StatId[] RBY = { StatId.Hp, StatId.Atk, StatId.Def, StatId.Spc, StatId.Spe };
     private static readonly StatId[] GSC = { StatId.Hp, StatId.Atk, StatId.Def, StatId.Spa, StatId.Spd, StatId.Spe };
@@ -98,6 +102,17 @@ namespace Lusamine.DamageCalc {
       };
     }
 
+    /// <summary>
+    /// Computes a final stat value for the given generation.
+    /// Automatically delegates to gen 1–2 (DV-based) or gen 3+ (IV/EV/nature) formulas.
+    /// </summary>
+    /// <param name="gen">Generation data context.</param>
+    /// <param name="stat">The stat to compute.</param>
+    /// <param name="base">Base stat value.</param>
+    /// <param name="iv">Individual value (0–31 for gen 3+; treated as DV×2 for gen 1–2).</param>
+    /// <param name="ev">Effort value (0–252 for gen 3+; ignored in gen 1–2).</param>
+    /// <param name="level">Pokémon level (1–100).</param>
+    /// <param name="nature">Nature name, or <c>null</c> for neutral.</param>
     public static int CalcStat(IGeneration gen, StatId stat, int @base, int iv, int ev, int level, string? nature) {
       if (gen.Num < 1 || gen.Num > 9) throw new InvalidOperationException($"Invalid generation {gen.Num}");
       if (gen.Num < 3) return CalcStatRBY(stat, @base, iv, level);

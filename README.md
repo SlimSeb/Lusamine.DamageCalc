@@ -1,6 +1,6 @@
 # Lusamine.DamageCalc
 
-A Pokémon damage calculator library for .NET 8, supporting generations 1–9. Ported from [@smogon/calc](https://github.com/smogon/damage-calc).
+A Pokémon damage calculator library for .NET 10, supporting generations 1–9. Ported from [@smogon/calc](https://github.com/smogon/damage-calc).
 
 ## Installation
 

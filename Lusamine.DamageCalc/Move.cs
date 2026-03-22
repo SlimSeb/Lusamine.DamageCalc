@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using Lusamine.DamageCalc.Data;
 
 namespace Lusamine.DamageCalc {
+  /// <summary>
+  /// Represents a move used in a damage calculation, including its base power,
+  /// type, category, and optional Z-move / Max-move / critical-hit overrides.
+  /// </summary>
   public sealed class Move {
     private static readonly HashSet<string> SPECIAL = new HashSet<string> {
       "Fire", "Water", "Grass", "Electric", "Ice", "Psychic", "Dark", "Dragon",
@@ -46,6 +50,17 @@ namespace Lusamine.DamageCalc {
     public bool IsMax { get; set; }
     public bool Multiaccuracy { get; set; }
 
+    /// <summary>
+    /// Constructs a move for the given generation and move name.
+    /// Z-moves and Max-moves are resolved automatically when
+    /// <see cref="State.Move.UseZ"/> or <see cref="State.Move.UseMax"/> are set.
+    /// </summary>
+    /// <param name="gen">Generation data context.</param>
+    /// <param name="name">Move name (e.g. <c>"Earthquake"</c>).</param>
+    /// <param name="options">Optional overrides (crit, Z, Max, hits, stat category).</param>
+    /// <param name="ability">Attacker's ability (used for G-Max move resolution).</param>
+    /// <param name="item">Attacker's item (used for Z-move resolution).</param>
+    /// <param name="species">Attacker's species name (used for G-Max move resolution).</param>
     public Move(IGeneration gen, string name, State.Move? options = null, string? ability = null, string? item = null, string? species = null) {
       options ??= new State.Move();
       name = string.IsNullOrEmpty(options.Name) ? name : options.Name;
@@ -160,14 +175,17 @@ namespace Lusamine.DamageCalc {
       }
     }
 
+    /// <summary>Returns <c>true</c> if this move's name matches any of the given names.</summary>
     public bool Named(params string[] names) {
       return Array.Exists(names, n => n == Name);
     }
 
+    /// <summary>Returns <c>true</c> if this move's type matches any of the given types.</summary>
     public bool HasType(params string[] types) {
       return Array.Exists(types, t => t == Type);
     }
 
+    /// <summary>Creates a deep copy of this move.</summary>
     public Move Clone() {
       return new Move(Gen, OriginalName, new State.Move {
         UseZ = UseZ,
