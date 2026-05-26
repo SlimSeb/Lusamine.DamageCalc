@@ -5,8 +5,8 @@
     <LangVersion>latest</LangVersion>
 
     <PackageId>Lusamine.DamageCalc</PackageId>
-    <Version>1.1.1</Version>
-    <Description>A Pokémon damage calculator library supporting generations 1–9, ported from @smogon/calc. Includes all game mechanics: natures, EVs/IVs, abilities, items, weather, terrain, Z-moves, Max moves, and Terastallization.</Description>
+    <Version>1.1.2</Version>
+    <Description>A Pokémon damage calculator library supporting generations 1 to 9, ported from @smogon/calc. Includes all game mechanics: natures, EVs/IVs, abilities, items, weather, terrain, Z-moves, Max moves, and Terastallization.</Description>
     <PackageTags>pokemon;damage;calculator;smogon;competitive</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -42,5 +42,11 @@
     <EmbeddedResource Include="Data\dex-natures.json">
       <LogicalName>Lusamine.DamageCalc.Data.dex-natures.json</LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\README.md">
+      <Link>README.md</Link>
+    </Content>
   </ItemGroup>
 </Project>

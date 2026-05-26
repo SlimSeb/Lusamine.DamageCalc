@@ -107,7 +107,7 @@ namespace Lusamine.DamageCalc {
   /// including entry hazards, screens, and ally-support effects.
   /// </summary>
   public sealed class Side {
-    /// <summary>Number of Spikes layers (0–3).</summary>
+    /// <summary>Number of Spikes layers (0 to 3).</summary>
     public int Spikes { get; set; }
     /// <summary>Whether G-Max Steelsurge steel-type hazard is active.</summary>
     public bool Steelsurge { get; set; }

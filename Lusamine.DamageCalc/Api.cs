@@ -20,7 +20,7 @@ namespace Lusamine.DamageCalc {
     /// Calculates damage using the generation number from
     /// <see cref="DefaultGenerations"/>.
     /// </summary>
-    /// <param name="gen">Generation number (1–9).</param>
+    /// <param name="gen">Generation number (1 to 9).</param>
     /// <param name="attacker">The attacking Pokémon.</param>
     /// <param name="defender">The defending Pokémon.</param>
     /// <param name="move">The move being used.</param>
@@ -49,12 +49,12 @@ namespace Lusamine.DamageCalc {
     /// Computes a single stat value using the generation number from
     /// <see cref="DefaultGenerations"/>.
     /// </summary>
-    /// <param name="gen">Generation number (1–9).</param>
+    /// <param name="gen">Generation number (1 to 9).</param>
     /// <param name="stat">The stat to compute.</param>
     /// <param name="base">Base stat value.</param>
-    /// <param name="iv">Individual value (0–31; converted to DVs for gen 1–2).</param>
-    /// <param name="ev">Effort value (0–252 for gen 3+; ignored in gen 1–2).</param>
-    /// <param name="level">Pokémon level (1–100).</param>
+    /// <param name="iv">Individual value (0 to 31; converted to DVs for gen 1 and 2).</param>
+    /// <param name="ev">Effort value (0 to 252 for gen 3+; ignored in gen 1 and 2).</param>
+    /// <param name="level">Pokémon level (1 to 100).</param>
     /// <param name="nature">Nature name, or <c>null</c> for a neutral nature.</param>
     /// <exception cref="InvalidOperationException">
     /// Thrown if <see cref="DefaultGenerations"/> is <c>null</c>.
@@ -70,9 +70,9 @@ namespace Lusamine.DamageCalc {
     /// <param name="gen">Generation data context.</param>
     /// <param name="stat">The stat to compute.</param>
     /// <param name="base">Base stat value.</param>
-    /// <param name="iv">Individual value (0–31; converted to DVs for gen 1–2).</param>
-    /// <param name="ev">Effort value (0–252 for gen 3+; ignored in gen 1–2).</param>
-    /// <param name="level">Pokémon level (1–100).</param>
+    /// <param name="iv">Individual value (0 to 31; converted to DVs for gen 1 and 2).</param>
+    /// <param name="ev">Effort value (0 to 252 for gen 3+; ignored in gen 1 and 2).</param>
+    /// <param name="level">Pokémon level (1 to 100).</param>
     /// <param name="nature">Nature name, or <c>null</c> for a neutral nature.</param>
     public static int CalcStat(IGeneration gen, StatId stat, int @base, int iv, int ev, int level, string? nature = null) {
       return Stats.CalcStat(gen, stat, @base, iv, ev, level, nature);

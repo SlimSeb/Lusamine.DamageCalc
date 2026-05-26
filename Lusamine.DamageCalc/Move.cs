@@ -8,9 +8,10 @@ namespace Lusamine.DamageCalc {
   /// type, category, and optional Z-move / Max-move / critical-hit overrides.
   /// </summary>
   public sealed class Move {
-    private static readonly HashSet<string> SPECIAL = new HashSet<string> {
-      "Fire", "Water", "Grass", "Electric", "Ice", "Psychic", "Dark", "Dragon",
-    };
+    private static readonly HashSet<string> SPECIAL =
+    [
+	    "Fire", "Water", "Grass", "Electric", "Ice", "Psychic", "Dark", "Dragon"
+    ];
 
     public IGeneration Gen { get; }
     public string Name { get; }

@@ -1,6 +1,6 @@
 # Lusamine.DamageCalc
 
-A Pokémon damage calculator library for .NET 10, supporting generations 1–9. Ported from [@smogon/calc](https://github.com/smogon/damage-calc).
+A Pokémon damage calculator library for .NET 10, supporting generations 1 to 9. Ported from [@smogon/calc](https://github.com/smogon/damage-calc).
 
 ## Installation
 
@@ -46,7 +46,7 @@ Console.WriteLine(result.Range()); // (204, 242)
 
 ## Core concepts
 
-### Generations (1–9)
+### Generations (1 to 9)
 
 Each calculation is scoped to a generation. Create one with `DataIndex.Create(int gen)`. The object is cheap to cache:
 
@@ -114,7 +114,7 @@ var field = new Field(new State.Field {
     },
     DefenderSide = new State.Side {
         IsSR          = true,           // Stealth Rock
-        Spikes        = 1,              // 1–3 layers
+        Spikes        = 1,              // 1 to 3 layers
         IsLightScreen = true,
         IsReflect     = false,
         IsSeeded      = true,           // Leech Seed

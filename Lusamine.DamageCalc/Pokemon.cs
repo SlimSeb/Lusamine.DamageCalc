@@ -22,7 +22,7 @@ namespace Lusamine.DamageCalc {
     /// <summary>Weight in kilograms, used by weight-based moves.</summary>
     public double WeightKg { get; set; }
 
-    /// <summary>Level (1–100). Defaults to 100.</summary>
+    /// <summary>Level (1 to 100). Defaults to 100.</summary>
     public int Level { get; set; }
     /// <summary>Gender (<c>"M"</c>, <c>"F"</c>, or <c>"N"</c>). Defaults to species default.</summary>
     public string? Gender { get; set; }
@@ -32,7 +32,7 @@ namespace Lusamine.DamageCalc {
     public bool AbilityOn { get; set; }
     /// <summary>Whether the Pokémon is Dynamaxed (gen 8).</summary>
     public bool IsDynamaxed { get; set; }
-    /// <summary>Dynamax level (0–10). <c>null</c> when not Dynamaxed.</summary>
+    /// <summary>Dynamax level (0 to 10). <c>null</c> when not Dynamaxed.</summary>
     public int? DynamaxLevel { get; set; }
     /// <summary>Number of allies that have fainted this battle (used by Last Respects).</summary>
     public int? AlliesFainted { get; set; }
@@ -47,9 +47,9 @@ namespace Lusamine.DamageCalc {
 
     /// <summary>Nature name (e.g. <c>"Modest"</c>). Defaults to <c>"Serious"</c> (neutral).</summary>
     public string Nature { get; set; }
-    /// <summary>Individual values (0–31 per stat; treated as DVs in gen 1–2).</summary>
+    /// <summary>Individual values (0 to 31 per stat; treated as DVs in gen 1 and 2).</summary>
     public StatsTable Ivs { get; set; }
-    /// <summary>Effort values (0–252 per stat for gen 3+; unused in gen 1–2).</summary>
+    /// <summary>Effort values (0 to 252 per stat for gen 3+; unused in gen 1 and 2).</summary>
     public StatsTable Evs { get; set; }
     /// <summary>In-battle stat boosts (−6 to +6 per stat).</summary>
     public StatsTable Boosts { get; set; }
