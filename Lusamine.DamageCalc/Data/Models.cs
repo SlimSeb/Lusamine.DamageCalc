@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+#if NETSTANDARD2_0
+using System.Linq;
+#endif
 
 namespace Lusamine.DamageCalc.Data {
   public sealed class Ability : IAbility {
@@ -25,7 +28,11 @@ namespace Lusamine.DamageCalc.Data {
         Id = Id,
         Name = Name,
         Kind = Kind,
+#if NETSTANDARD2_0
+        MegaStone = MegaStone == null ? null : MegaStone.ToDictionary(kv => kv.Key, kv => kv.Value),
+#else
         MegaStone = MegaStone == null ? null : new Dictionary<string, string>(MegaStone),
+#endif
         IsBerry = IsBerry,
         NaturalGift = NaturalGift == null ? null : new NaturalGiftData {
           BasePower = NaturalGift.BasePower,
@@ -188,7 +195,11 @@ namespace Lusamine.DamageCalc.Data {
         Gender = Gender,
         OtherFormes = OtherFormes == null ? null : (string[])OtherFormes.Clone(),
         BaseSpecies = BaseSpecies,
+#if NETSTANDARD2_0
+        Abilities = Abilities == null ? null : Abilities.ToDictionary(kv => kv.Key, kv => kv.Value),
+#else
         Abilities = Abilities == null ? null : new Dictionary<int, string>(Abilities),
+#endif
       };
     }
 
@@ -219,7 +230,11 @@ namespace Lusamine.DamageCalc.Data {
         Id = Id,
         Name = Name,
         Kind = Kind,
+#if NETSTANDARD2_0
+        Effectiveness = Effectiveness.ToDictionary(kv => kv.Key, kv => kv.Value),
+#else
         Effectiveness = new Dictionary<string, double>(Effectiveness),
+#endif
       };
     }
   }
